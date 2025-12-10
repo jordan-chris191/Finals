@@ -1,0 +1,135 @@
+{% extends 'base.html.twig' %}
+
+{% block page_title %}Admin Dashboard{% endblock %}
+
+{% block admin_page_title %}Dashboard{% endblock %}
+
+{% block admin_content %}
+<div class="dashboard-container">
+    <div class="container-fluid">
+        
+        {# Welcome Section #}
+        <div class="welcome-section mb-4">
+            <h2>Welcome back, {{ app.user.name }}</h2>
+        </div>
+
+        {# Quick Stats Cards #}
+                <div class="row g-3 mb-4">
+                    <div class="col-12 col-sm-6 col-lg-4">
+                        <div class="stat-card p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div class="stat-label">Total Users</div>
+                                <div class="stat-icon">
+                                    <i class="fas fa-users text-primary"></i>
+                                </div>
+                            </div>
+                            <div class="stat-number mb-3">{{ totalUsers }}</div>
+                            <a href="{{ path('app_user_index') }}" class="text-success text-decoration-none small">View all users →</a>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-lg-4">
+                        <div class="stat-card p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div class="stat-label">Total Staff</div>
+                                <div class="stat-icon">
+                                    <i class="fas fa-user-tie text-success"></i>
+                                </div>
+                            </div>
+                            <div class="stat-number mb-3">{{ totalStaff }}</div>
+                            <a href="{{ path('app_user_index') }}" class="text-success text-decoration-none small">View all staff →</a>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-lg-4">
+                        <div class="stat-card p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div class="stat-label">Products</div>
+                                <div class="stat-icon">
+                                    <i class="fas fa-box text-info"></i>
+                                </div>
+                            </div>
+                            <div class="stat-number mb-3">{{ totalProducts }}</div>
+                            <a href="{{ path('app_product_index') }}" class="text-success text-decoration-none small">View products →</a>
+                        </div>
+                    </div>
+                </div>
+
+        {# Quick Actions & Recent Activity #}
+        <div class="row g-4">
+            {# Quick Actions #}
+            <div class="col-12 col-lg-4">
+                <div class="card-content">
+                    <h3 class="section-title mb-3">Quick Actions</h3>
+                    <div class="d-flex flex-column gap-2">
+                         <a href="{{ path('app_product_new') }}" class="btn btn-outline-success">
+                            <i class="fas fa-plus-circle me-2"></i>Create Product
+                        </a>
+                        <a href="{{ path('app_user_new') }}" class="btn btn-outline-primary">
+                            <i class="fas fa-user-plus me-2"></i>Create User
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            {# Recent Activity #}
+            <div class="col-12 col-lg-8">
+                <div class="card-content">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h3 class="section-title mb-0">Recent Activity</h3>
+                        <a href="{{ path('app_activity_log') }}" class="text-success text-decoration-none small">View all →</a>
+                    </div>
+                    
+                    {% if recentLogs is not empty %}
+                        <div class="activity-list">
+                            {% for log in recentLogs %}
+                                <div class="activity-item">
+                                    <div class="d-flex align-items-start gap-3">
+                                        <div class="activity-icon">
+                                            {% if log.action == 'Create' %}
+                                                <i class="fas fa-plus-circle text-success"></i>
+                                            {% elseif log.action == 'Update' %}
+                                                <i class="fas fa-edit text-primary"></i>
+                                            {% elseif log.action == 'Delete' %}
+                                                <i class="fas fa-trash text-danger"></i>
+                                            {% elseif log.action == 'Login' %}
+                                                <i class="fas fa-sign-in-alt text-info"></i>
+                                            {% elseif log.action == 'Logout' %}
+                                                <i class="fas fa-sign-out-alt text-secondary"></i>
+                                            {% endif %}
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <div class="activity-content">
+                                                <span class="activity-user">{{ log.username ?? 'System' }}</span>
+                                                <span class="activity-action">
+                                                    {% if log.action == 'Create' %}created
+                                                    {% elseif log.action == 'Update' %}updated
+                                                    {% elseif log.action == 'Delete' %}deleted
+                                                    {% elseif log.action == 'Login' %}logged in
+                                                    {% elseif log.action == 'Logout' %}logged out
+                                                    {% else %}{{ log.action|lower }}
+                                                    {% endif %}
+                                                </span>
+                                                <span class="activity-target">{{ log.targetData }}</span>
+                                            </div>
+                                            <div class="activity-meta">
+                                                <span class="activity-time">{{ log.createdAt|date('M d, Y h:i A') }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="activity-empty text-center py-4">
+                            <i class="fas fa-clipboard-list text-muted" style="font-size: 2rem; opacity: 0.3;"></i>
+                            <p class="text-muted mb-0 mt-2">No recent activity to display</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

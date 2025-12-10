@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block page_title %}Create New Product{% endblock %}
+
+{% block admin_page_title %}Create New Product{% endblock %}
+
+{% block admin_content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-lg-8 col-xl-6">
+            {# Back Link #}
+            <div class="mb-3">
+                <a href="{{ path('app_product_index') }}" class="text-decoration-none text-muted">
+                    ← Back to products
+                </a>
+            </div>
+
+            {# Form Card #}
+            <div class="card-content">
+                <h2 class="section-title mb-4">Product Information</h2>
+                
+                {{ include('product/_form.html.twig') }}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
