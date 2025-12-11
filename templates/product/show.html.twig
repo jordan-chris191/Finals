@@ -57,7 +57,7 @@
                         </tr>
                         <tr>
                             <th>Price</th>
-                            <td><strong>${{ product.price|number_format(2, '.', ',') }}</strong></td>
+                            <td><strong>₱{{ product.price|number_format(2, '.', ',') }}</strong></td>
                         </tr>
                         <tr>
                             <th>Created By</th>
@@ -79,33 +79,4 @@
     </div>
 
 </div>
-
-<style>
-    .product-image-preview {
-        max-height: 280px;
-        object-fit: cover;
-        border-radius: 12px;
-    }
-
-    .no-image-placeholder {
-        padding: 40px;
-        border: 2px dashed #ccc;
-        border-radius: 12px;
-    }
-
-    .page-title {
-        font-size: 1.8rem;
-        font-weight: 600;
-    }
-
-    .action-buttons a,
-    .action-buttons button {
-        margin-left: 8px;
-    }
-
-    .card {
-        border-radius: 12px;
-    }
-</style>
-
 {% endblock %}
