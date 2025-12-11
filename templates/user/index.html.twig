@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-
+{% import 'macros/datatables.html.twig' as dt %}
 {% block title %}User Management{% endblock %}
 
 {% block admin_page_title %}User Management{% endblock %}
@@ -44,6 +44,7 @@
 </div>
 
 <div class="table-container">
+<div data-turbo="false">
     <table id="userTable" class="table">
         <thead>
             <tr>
@@ -93,15 +94,11 @@
         </tbody>
     </table>
 </div>
+</div>
 
-<script>
-    $(document).ready(function () {
-        $('#userTable').DataTable({
-            searching: false,
-            pageLength: 10,
-            lengthMenu: [5, 10, 25, 50, 100]
-        });
-    });
-</script>
+{% block javascripts %}
+    {{ parent() }}
+    {{ dt.datatable('userTable', {'pageLength': 10, 'searching': false}) }}
+{% endblock %}
 
 {% endblock %}

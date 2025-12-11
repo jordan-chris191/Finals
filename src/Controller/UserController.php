@@ -43,7 +43,7 @@ public function new(
     Request $request, 
     EntityManagerInterface $entityManager, 
     UserPasswordHasherInterface $passwordHasher
-): Response 
+): Response
 {
     $user = new User();
     $form = $this->createForm(UserType::class, $user);
@@ -51,7 +51,6 @@ public function new(
 
     if ($form->isSubmitted() && $form->isValid()) {
 
-        // Hash password
         $plainPassword = $form->get('password')->getData();
         if (!$plainPassword) {
             $this->addFlash('error', 'Password is required for new users.');
@@ -62,7 +61,6 @@ public function new(
         $entityManager->persist($user);
         $entityManager->flush();
 
-        // 🔥 Log activity
         $this->logger->log(
             'Create',
             'User: ' . $user->getUsername()
